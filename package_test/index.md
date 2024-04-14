@@ -2,11 +2,11 @@
 
 
 ## Embedded board
-    Raspberry Pi 4 Model B
-    8GB RAM
+Raspberry Pi 4 Model B
+8GB RAM
 
 ## OS
-    Raspberry OS 64-bit
+Raspberry OS 64-bit
     '''bash
     $ lsb_release -a
     No LSB modules are available.
@@ -22,13 +22,13 @@
     '''
 
 ## Network Infra
-    HostName    : raspberrypi
-    UID         : chana
-    IP          : 203.250.35.75
-    Port        : 22
+HostName    : raspberrypi
+UID         : chana
+IP          : 203.250.35.75
+Port        : 22
 
 ## python version
-    pyhton3.11.2
+pyhton3.11.2
 
-    Tested in Python version 3.9.0, but an error occurred in which the camera module could not be loaded.
-    so proceeded with 3.11.2, which is the default python version of Raspberry Pi OS.
+Tested in Python version 3.9.0, but an error occurred in which the camera module could not be loaded.
+so proceeded with 3.11.2, which is the default python version of Raspberry Pi OS.

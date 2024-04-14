@@ -11,19 +11,20 @@ Raspberry Pi 4 Model B
 
 Raspberry OS 64-bit
 
-    ```bash
-    $ lsb_release -a
-    No LSB modules are available.
-    Distributor ID:	Debian
-    Description:	Debian GNU/Linux 12 (bookworm)
-    Release:	12
-    Codename:	bookworm
+   ```bash
+   $ lsb_release -a
+   No LSB modules are available.
+   Distributor ID:	Debian
+   Description:	Debian GNU/Linux 12 (bookworm)
+   Release:	12
+   Codename:	bookworm
     ```
 
-    ```bash
-    $ uname -a
-    Linux raspberrypi 6.6.20+rpt-rpi-v8 #1 SMP PREEMPT Debian 1:6.6.20-1+rpt1 (2024-03-07) aarch64 GNU/Linux
-    ```
+   ```bash
+   $ uname -a
+   Linux raspberrypi 6.6.20+rpt-rpi-v8 #1 SMP PREEMPT Debian 1:6.6.20-1+rpt1 (2024-03-07) aarch64 GNU/Linux
+   ```
+
 
 ## Network Infra
 

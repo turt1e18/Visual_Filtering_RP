@@ -29,8 +29,11 @@ Raspberry OS 64-bit
 ## Network Infra
 
 HostName    : raspberrypi
+
 UID         : chana
+
 IP          : 203.250.35.75
+
 Port        : 22
 
 

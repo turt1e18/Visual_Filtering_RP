@@ -18,7 +18,7 @@ Raspberry OS 64-bit
    Description:	Debian GNU/Linux 12 (bookworm)
    Release:	12
    Codename:	bookworm
-    ```
+   ```
 
    ```bash
    $ uname -a

@@ -4,12 +4,13 @@
 ## Embedded board
 
 Raspberry Pi 4 Model B
+
 8GB RAM
 
 
 ## OS
 
-Raspberry OS 64-bit
+Raspberry Pi OS 64-bit
 
    ```bash
    $ lsb_release -a

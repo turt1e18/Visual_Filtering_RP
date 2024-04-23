@@ -73,7 +73,7 @@ class Ui_Dialog(object):
         # 적색 슬라이더 구현부
         self.red_slider = QtWidgets.QSlider(Dialog)
         self.red_slider.setGeometry(QtCore.QRect(60, 120, 501, 51))
-        self.red_slider.setMaximum(100)
+        self.red_slider.setMaximum(255)
         self.red_slider.setOrientation(QtCore.Qt.Horizontal)
         self.red_slider.setObjectName("red_slider")
         # 적색 슬라이더 값을 표시하는 코드
@@ -82,7 +82,7 @@ class Ui_Dialog(object):
         # 청색 슬라이더 구현부
         self.blue_slider = QtWidgets.QSlider(Dialog)
         self.blue_slider.setGeometry(QtCore.QRect(60, 260, 501, 51))
-        self.blue_slider.setMaximum(100)
+        self.blue_slider.setMaximum(255)
         self.blue_slider.setOrientation(QtCore.Qt.Horizontal)
         self.blue_slider.setObjectName("blue_slider")
         # 청색 슬라이더 값을 표시하는 코드
@@ -91,7 +91,7 @@ class Ui_Dialog(object):
         # 녹색 슬라이더 구현부
         self.green_slider = QtWidgets.QSlider(Dialog)
         self.green_slider.setGeometry(QtCore.QRect(60, 400, 501, 51))
-        self.green_slider.setMaximum(100)
+        self.green_slider.setMaximum(255)
         self.green_slider.setOrientation(QtCore.Qt.Horizontal)
         self.green_slider.setObjectName("green_slider")
         #녹색 슬라이더 값을 표시하는 코드
@@ -118,7 +118,7 @@ class Ui_Dialog(object):
         self.label.setEnabled(True)
         self.label.setStyleSheet("border-radius: 10px;")
         self.label.setTextFormat(QtCore.Qt.RichText)
-        self.label.setPixmap(QtGui.QPixmap("../서류/둘기.gif"))
+        self.label.setPixmap(QtGui.QPixmap("./pic.jpg"))
         self.label.setObjectName("label")
         
         self.verticalLayout.addWidget(self.label)

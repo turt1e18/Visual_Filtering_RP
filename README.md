@@ -4,7 +4,7 @@
 
 Language            Python 3.11.x
 
-Framework           QyQt5
+Framework           PyQt5
 
 Enable Text Editor  Visual Studio Code
 

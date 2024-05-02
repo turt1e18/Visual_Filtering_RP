@@ -206,11 +206,45 @@ class Ui_Dialog(object):
 
         # UI 완료 코드
         self.retranslateUi(Dialog)
-        self.bottom_box.accepted.connect(Dialog.accept) # type: ignore
+        self.bottom_box.accepted.connect(self.on_ok_button_clicked) # type: ignore
         self.bottom_box.rejected.connect(Dialog.reject) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-   
+    def save_intensity_to_json(self):
+    # 슬라이더 값 가져오기
+        red_intensity = self.red_slider.value()
+        green_intensity = self.green_slider.value()
+        blue_intensity = self.blue_slider.value()
+
+        # JSON 형식으로 데이터 작성
+        data = [
+            {"id": "1", "title": "Red", "intensity": red_intensity},
+            {"id": "2", "title": "Green", "intensity": green_intensity},
+            {"id": "3", "title": "Blue", "intensity": blue_intensity}
+        ]
+
+        # JSON 파일에 쓰기
+        with open("_COLOR.json", "w") as f:
+            json.dump(data, f)
+
+    def on_ok_button_clicked(self):
+            # 확인 버튼 클릭 시 실행되는 함수
+            # _COLOR.json 파일에 슬라이더 값 저장
+        preset_data = [
+                {"id": "1", "title": "Red", "intensity": self.red_slider.value()},
+                {"id": "2", "title": "Green", "intensity": self.green_slider.value()},
+                {"id": "3", "title": "Blue", "intensity": self.blue_slider.value()}
+            ]
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        json_file = os.path.join(current_dir, "_COLOR.json")
+        try:
+            with open(json_file, "w") as f:
+                json.dump(preset_data, f)
+        except IOError:
+            QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
+            # 프로그램 종료
+        sys.exit()
+
     # 프리셋 1에 슬라이더 값 저장하는 함수
     def save_preset1(self):
         red_value = self.red_slider.value()

@@ -10,6 +10,7 @@
 import sys
 import json
 import os
+import subprocess
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDialog, QSlider, QPushButton, QApplication, QVBoxLayout, QLabel, QFrame, QWidget, QDialogButtonBox
@@ -210,22 +211,22 @@ class Ui_Dialog(object):
         self.bottom_box.rejected.connect(Dialog.reject) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def save_intensity_to_json(self):
-    # 슬라이더 값 가져오기
-        red_intensity = self.red_slider.value()
-        green_intensity = self.green_slider.value()
-        blue_intensity = self.blue_slider.value()
+    # def save_intensity_to_json(self):
+    # # 슬라이더 값 가져오기
+    #     red_intensity = self.red_slider.value()
+    #     green_intensity = self.green_slider.value()
+    #     blue_intensity = self.blue_slider.value()
 
-        # JSON 형식으로 데이터 작성
-        data = [
-            {"id": "1", "title": "Red", "intensity": red_intensity},
-            {"id": "2", "title": "Green", "intensity": green_intensity},
-            {"id": "3", "title": "Blue", "intensity": blue_intensity}
-        ]
+    #     # JSON 형식으로 데이터 작성
+    #     data = [
+    #         {"id": "1", "title": "Red", "intensity": red_intensity},
+    #         {"id": "2", "title": "Green", "intensity": green_intensity},
+    #         {"id": "3", "title": "Blue", "intensity": blue_intensity}
+    #     ]
 
-        # JSON 파일에 쓰기
-        with open("_COLOR.json", "w") as f:
-            json.dump(data, f)
+    #     # JSON 파일에 쓰기
+    #     with open("_COLOR.json", "w") as f:
+    #         json.dump(data, f)
 
     def on_ok_button_clicked(self):
             # 확인 버튼 클릭 시 실행되는 함수
@@ -243,7 +244,10 @@ class Ui_Dialog(object):
         except IOError:
             QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
             # 프로그램 종료
-        sys.exit()
+        subprocess.Popen(["python", "main.py"])
+
+        Dialog.showMinimized()
+
 
     # 프리셋 1에 슬라이더 값 저장하는 함수
     def save_preset1(self):

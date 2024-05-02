@@ -15,6 +15,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDialog, QSlider, QPushButton, QApplication, QVBoxLayout, QLabel, QFrame, QWidget, QDialogButtonBox
 from PyQt5.QtCore import Qt, QObject, QEvent
 
+
 class EventFilter(QObject):
     def __init__(self, ui):
         super().__init__()
@@ -58,10 +59,12 @@ class EventFilter(QObject):
                 return True
         return False
 
-class Ui_Dialog(object):
+class Ui_Dialog(QDialog):
     def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(1195, 581)
+        self.Dialog = Dialog
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setObjectName("Dialog")
+        self.resize(1195, 581)
         
         # 박스 하단의 확인 버튼 구현부
         self.bottom_box = QtWidgets.QDialogButtonBox(Dialog)
@@ -235,11 +238,13 @@ class Ui_Dialog(object):
                 {"id": "2", "title": "Green", "intensity": self.green_slider.value()},
                 {"id": "3", "title": "Blue", "intensity": self.blue_slider.value()}
             ]
-        current_dir = os.path.dirname(os.path.realpath(__file__))
+        #current_dir = os.path.dirname(os.path.realpath(__file__))
+        current_dir = os.getcwd()
         json_file = os.path.join(current_dir, "_COLOR.json")
         try:
             with open(json_file, "w") as f:
                 json.dump(preset_data, f)
+
         except IOError:
             QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
             # 프로그램 종료
@@ -366,7 +371,11 @@ class Ui_Dialog(object):
     def update_green_value_ui(self, value):
         self.green_value_level.setText(str(value))
 
-if __name__ == "__main__":
+    def closeEvent(self, event):
+        event.accept()
+
+
+def main():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
@@ -374,3 +383,7 @@ if __name__ == "__main__":
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    start()

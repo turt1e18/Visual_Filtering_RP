@@ -10,11 +10,11 @@
 import sys
 import json
 import os
+import subprocess
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDialog, QSlider, QPushButton, QApplication, QVBoxLayout, QLabel, QFrame, QWidget, QDialogButtonBox
 from PyQt5.QtCore import Qt, QObject, QEvent
-
 
 class EventFilter(QObject):
     def __init__(self, ui):
@@ -59,12 +59,10 @@ class EventFilter(QObject):
                 return True
         return False
 
-class Ui_Dialog(QDialog):
+class Ui_Dialog(object):
     def setupUi(self, Dialog):
-        self.Dialog = Dialog
-        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-        self.setObjectName("Dialog")
-        self.resize(1195, 581)
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(1195, 581)
         
         # 박스 하단의 확인 버튼 구현부
         self.bottom_box = QtWidgets.QDialogButtonBox(Dialog)
@@ -213,22 +211,22 @@ class Ui_Dialog(QDialog):
         self.bottom_box.rejected.connect(Dialog.reject) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def save_intensity_to_json(self):
-    # 슬라이더 값 가져오기
-        red_intensity = self.red_slider.value()
-        green_intensity = self.green_slider.value()
-        blue_intensity = self.blue_slider.value()
+    # def save_intensity_to_json(self):
+    # # 슬라이더 값 가져오기
+    #     red_intensity = self.red_slider.value()
+    #     green_intensity = self.green_slider.value()
+    #     blue_intensity = self.blue_slider.value()
 
-        # JSON 형식으로 데이터 작성
-        data = [
-            {"id": "1", "title": "Red", "intensity": red_intensity},
-            {"id": "2", "title": "Green", "intensity": green_intensity},
-            {"id": "3", "title": "Blue", "intensity": blue_intensity}
-        ]
+    #     # JSON 형식으로 데이터 작성
+    #     data = [
+    #         {"id": "1", "title": "Red", "intensity": red_intensity},
+    #         {"id": "2", "title": "Green", "intensity": green_intensity},
+    #         {"id": "3", "title": "Blue", "intensity": blue_intensity}
+    #     ]
 
-        # JSON 파일에 쓰기
-        with open("_COLOR.json", "w") as f:
-            json.dump(data, f)
+    #     # JSON 파일에 쓰기
+    #     with open("_COLOR.json", "w") as f:
+    #         json.dump(data, f)
 
     def on_ok_button_clicked(self):
             # 확인 버튼 클릭 시 실행되는 함수
@@ -238,17 +236,16 @@ class Ui_Dialog(QDialog):
                 {"id": "2", "title": "Green", "intensity": self.green_slider.value()},
                 {"id": "3", "title": "Blue", "intensity": self.blue_slider.value()}
             ]
-        #current_dir = os.path.dirname(os.path.realpath(__file__))
-        current_dir = os.getcwd()
+        current_dir = os.path.dirname(os.path.realpath(__file__))
         json_file = os.path.join(current_dir, "_COLOR.json")
         try:
             with open(json_file, "w") as f:
                 json.dump(preset_data, f)
-
         except IOError:
             QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
             # 프로그램 종료
         sys.exit()
+
 
     # 프리셋 1에 슬라이더 값 저장하는 함수
     def save_preset1(self):
@@ -371,11 +368,8 @@ class Ui_Dialog(QDialog):
     def update_green_value_ui(self, value):
         self.green_value_level.setText(str(value))
 
-    def closeEvent(self, event):
-        event.accept()
 
-
-def main():
+def start():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
@@ -387,3 +381,4 @@ def main():
 
 if __name__ == "__main__":
     start()
+

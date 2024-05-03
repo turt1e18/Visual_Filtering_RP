@@ -24,7 +24,7 @@ picamera2 0.3.18
 
 Pandas 1.5.3
 
-QyQt5 5.15.9
+PyQt5 5.15.9
 
 
 ## Run Visual_Filtering

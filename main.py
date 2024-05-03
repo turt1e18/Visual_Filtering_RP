@@ -1,5 +1,4 @@
 from streaming.app import main as s_main
-from ui.ui_program import start
 import os
 import subprocess
 

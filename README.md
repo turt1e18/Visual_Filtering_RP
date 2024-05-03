@@ -1,15 +1,34 @@
 # 2024학년도 1학기 캡스톤 디자인
 
-===============================================================
 
-Language            Python 3.11.x
+## System Information
 
-Framework           PyQt5
+|Embedded board|RAM|
+|---|---|
+|Pi 4 Model B|8 GB|
+|Pi 4 Model B|4 GB|
+|Pi 5|8 GB|
 
-Enable Text Editor  Visual Studio Code
+### OS
 
-Available OS        Win 10, Linux Gui
+Paspberry Pi OS 64-bit
 
-Purpose of use      GUI with a screen color filtering function
 
-===============================================================
+### Requirement
+
+Python 3.11.2
+
+OpenCV 4.6.0
+
+picamera2 0.3.18
+
+Pandas 1.5.3
+
+QyQt5 5.15.9
+
+
+## Run Visual_Filtering
+
+   ```bash
+   $ python3 ./main.py
+   ```

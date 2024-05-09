@@ -3,7 +3,6 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-import timeit
 
 from streaming.filter import make_filter, sample_image
 
@@ -22,7 +21,7 @@ def main():
     if not cap.isOpened():
         print("Error: Couldn't open")
         exit()
-
+    
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
@@ -31,24 +30,28 @@ def main():
 
     cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("test", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-    
+
+    print("width :", width, "height :", height)
+
+
     while True:
+        start_t = cv2.getTickCount()
+
         ret, frame = cap.read()
         if not ret:
-            print("Error: cnt receive")
+            print("Error: can't receive")
             break
 
-        start_t = timeit.default_timer()
+        frame = cv2.flip(frame, 0)
 
         filter = make_filter(frame, R, G, B)
         frame = sample_image(frame, filter)
 
         cv2.imshow('test', frame)
 
-        terminate_t = timeit.default_timer()
-
-        fps = int(1. / (terminate_t - start_t))
-        print(fps)
+        time_diff = (cv2.getTickCount() - start_t) / cv2.getTickFrequency()
+        fps = 1.0 / time_diff
+        print(f"FPS :{fps:.2f}")
 
         if cv2.waitKey(1) & 0xFF == ord('q') :
             break

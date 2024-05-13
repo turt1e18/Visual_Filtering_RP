@@ -11,7 +11,7 @@
 
 ### OS
 
-Paspberry Pi OS 64-bit
+Raspberry Pi OS 64-bit
 
 
 ### Requirement

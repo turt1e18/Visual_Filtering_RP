@@ -244,7 +244,10 @@ class Ui_Dialog(object):
         except IOError:
             QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
             # 프로그램 종료
-        sys.exit()
+        subprocess.Popen(["python", "main.py"])
+
+        Dialog.showMinimized()
+
 
 
     # 프리셋 1에 슬라이더 값 저장하는 함수

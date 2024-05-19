@@ -117,17 +117,32 @@ class Ui_Dialog(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.verticalLayout.setAlignment(Qt.AlignCenter)  # 추가된 중앙 정렬 설정
+
+        # 위쪽 그림 (원본 이미지)
+        self.label_top = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.label_top.setFixedSize(260, 260)  # 정사각형 크기 설정
+        self.label_top.setStyleSheet("border-radius: 10px;")
+        self.label_top.setTextFormat(QtCore.Qt.RichText)
+        self.label_top.setPixmap(QtGui.QPixmap("./pic.jpg"))
+        self.label_top.setScaledContents(True)
+        self.label_top.setObjectName("label_top")
+        # self.verticalLayout.addWidget(self.label_top, alignment=Qt.AlignCenter)
+
+        # 아래쪽 그림 (필터링된 이미지)
+        self.label_bottom = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.label_bottom.setFixedSize(260, 260)  # 정사각형 크기 설정
+        self.label_bottom.setStyleSheet("border-radius: 10px;")
+        self.label_bottom.setTextFormat(QtCore.Qt.RichText)
+        self.label_bottom.setPixmap(QtGui.QPixmap("./pic.jpg"))
+        self.label_bottom.setScaledContents(True)
+        self.label_bottom.setObjectName("label_bottom")
+        # self.verticalLayout.addWidget(self.label_bottom, alignment=Qt.AlignCenter)
         
-        # 우측 화면의 그림 구현부
-        self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label.setEnabled(True)
-        self.label.setStyleSheet("border-radius: 10px;")
-        self.label.setTextFormat(QtCore.Qt.RichText)
-        self.label.setPixmap(QtGui.QPixmap("./pic.jpg"))
-        self.label.setObjectName("label")
-        
-        self.verticalLayout.addWidget(self.label)
-        
+        self.verticalLayout.addWidget(self.label_top)
+        self.verticalLayout.addWidget(self.label_bottom)
+        self.verticalLayout.setAlignment(Qt.AlignCenter)
+
         # 현재 슬라이드 값 표시 TEXT
         self.red_value_level = QtWidgets.QLabel(Dialog)
         self.red_value_level.setGeometry(QtCore.QRect(490, 100, 68, 15))
@@ -233,7 +248,7 @@ class Ui_Dialog(object):
             # 프로그램 종료
         subprocess.Popen(["python", "main.py"])
 
-        Dialog.showMinimized()
+        self.showMinimized()
 
     # 프리셋에 슬라이더 값 저장하는 함수
     def save_preset(self, num):
@@ -291,24 +306,32 @@ class Ui_Dialog(object):
         blue_value = self.blue_slider.value()
         green_value = self.green_slider.value()
 
+        if red_value == 0 and blue_value == 0 and green_value == 0:
+            pixmap = QtGui.QPixmap("./pic.jpg")
+            self.label_bottom.setPixmap(pixmap)
+            return
+
         image = cv2.imread('./pic.jpg')
 
-        filter = make_filter(image, red_value, blue_value, green_value)
+        filter = make_filter(image, red_value, green_value, blue_value)
         blended = sample_image(image, filter)
 
         cv2.imwrite("./pic_filtered.jpg", blended)
-
-        self.label.deleteLater()
-        self.label = None
-
-        self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label.setEnabled(True)
-        self.label.setStyleSheet("border-radius: 10px;")
-        self.label.setTextFormat(QtCore.Qt.RichText)
-        self.label.setPixmap(QtGui.QPixmap("./pic_filtered.jpg"))
-        self.label.setObjectName("label")
+       
+        # pixmap = QtGui.QPixmap.fromImage(QtGui.QImage(blended.data, blended.shape[1], blended.shape[0], blended.shape[1] * 3, QtGui.QImage.Format_RGB888))
+        # self.label_bottom.setPixmap(pixmap)
+        self.label_bottom.deleteLater()
+        self.label_bottom = None
+    
+        self.label_bottom = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.label_bottom.setEnabled(True)
+        self.label_bottom.setStyleSheet("border-radius: 10px;")
+        self.label_bottom.setTextFormat(QtCore.Qt.RichText)
+        self.label_bottom.setPixmap(QtGui.QPixmap("./pic_filtered.jpg"))
+        self.label_bottom.setObjectName("label_bottom")
+        self.label_bottom.setScaledContents(True)
         
-        self.verticalLayout.addWidget(self.label)
+        self.verticalLayout.addWidget(self.label_bottom)
 
     def update_red_value_ui(self, value):
         self.red_value_level.setText(str(value))
@@ -320,4 +343,4 @@ class Ui_Dialog(object):
 
     def update_green_value_ui(self, value):
         self.green_value_level.setText(str(value))
-        self.set_new_image()
+        self.set_new_image() 

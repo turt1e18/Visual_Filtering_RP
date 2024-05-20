@@ -318,20 +318,21 @@ class Ui_Dialog(object):
 
         cv2.imwrite("./pic_filtered.jpg", blended)
        
-        # pixmap = QtGui.QPixmap.fromImage(QtGui.QImage(blended.data, blended.shape[1], blended.shape[0], blended.shape[1] * 3, QtGui.QImage.Format_RGB888))
-        # self.label_bottom.setPixmap(pixmap)
-        self.label_bottom.deleteLater()
-        self.label_bottom = None
+        pixmap = QtGui.QPixmap.fromImage(QtGui.QImage(blended.data, blended.shape[1], blended.shape[0], blended.shape[1] * 3, QtGui.QImage.Format_RGB888))
+        self.label_bottom.setPixmap(pixmap)
+        # self.label_bottom.deleteLater()
+        # self.label_bottom = None
     
-        self.label_bottom = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_bottom.setEnabled(True)
-        self.label_bottom.setStyleSheet("border-radius: 10px;")
-        self.label_bottom.setTextFormat(QtCore.Qt.RichText)
-        self.label_bottom.setPixmap(QtGui.QPixmap("./pic_filtered.jpg"))
-        self.label_bottom.setObjectName("label_bottom")
-        self.label_bottom.setScaledContents(True)
+        # self.label_bottom = QtWidgets.QLabel(self.verticalLayoutWidget)
+        # self.label_bottom.setEnabled(True)
+        # self.label_top.setFixedSize(260, 260)  # 정사각형 크기 설정
+        # self.label_bottom.setStyleSheet("border-radius: 10px;")
+        # self.label_bottom.setTextFormat(QtCore.Qt.RichText)
+        # self.label_bottom.setPixmap(QtGui.QPixmap("./pic_filtered.jpg"))
+        # self.label_bottom.setObjectName("label_bottom")
+        # self.label_bottom.setScaledContents(True)
         
-        self.verticalLayout.addWidget(self.label_bottom)
+        # self.verticalLayout.addWidget(self.label_bottom)
 
     def update_red_value_ui(self, value):
         self.red_value_level.setText(str(value))

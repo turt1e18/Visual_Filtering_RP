@@ -1,6 +1,7 @@
 import json
 import os
 import cv2
+import numpy as np
 import pandas as pd
 
 from streaming.filtering import make_filter, sample_image
@@ -14,7 +15,7 @@ def main():
         data = json.load(f)
     data = pd.DataFrame(data)
     INTENSITY = data['intensity']
-    R, G, B = [255 * INTENSITY[0], 255* INTENSITY[1], 255* INTENSITY[2]]
+    R, G, B = [INTENSITY[0], INTENSITY[1], INTENSITY[2]]
     
     cap = cv2.VideoCapture("/dev/video0")
     
@@ -28,12 +29,12 @@ def main():
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    filter = make_filter(height, width, R, G, B)
+    filt = make_filter(height, width, R, G, B)
 
     cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("test", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    print("width :", width, "height :", height)
+    #print("width :", width, "height :", height)
 
     while True:
         start_t = cv2.getTickCount()
@@ -44,15 +45,14 @@ def main():
             break
 
         frame = cv2.flip(frame, 0)
-        filter = make_filter(height, width, R, G, B)
 
-        frame = sample_image(frame, filter)
+        frame2 = sample_image(frame, filt)
 
-        cv2.imshow('test', frame)
+        cv2.imshow('test', frame2)
 
         time_diff = (cv2.getTickCount() - start_t) / cv2.getTickFrequency()
         fps = 1.0 / time_diff
-        #print(f"FPS :{fps:.2f}")
+        print(f"FPS :{fps:.2f}")
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

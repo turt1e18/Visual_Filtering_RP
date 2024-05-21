@@ -323,8 +323,9 @@ class Ui_Dialog(object):
         green_value = self.green_slider.value()
         blue_value = self.blue_slider.value()
 
-        filter = make_filter(height, width, red_value, green_value, blue_value)
-        img = sample_image(img, filter)
+        filt = make_filter(height, width, red_value, green_value, blue_value)
+        img = sample_image(img, filt)
+        #cv2.imshow("aaa", img)
 
         # OpenCV 이미지를 QImage로 변환
         bytes_per_line = 3 * width

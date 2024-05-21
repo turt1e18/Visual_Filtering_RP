@@ -222,23 +222,30 @@ class Ui_Dialog(object):
         
     def on_ok_button_clicked(self):
         # 확인 버튼 클릭 시 실행되는 함수
-        # _COLOR.json 파일에 슬라이더 값 저장
-        preset_data = [
-            {"id": "1", "title": "Red", "intensity": self.red_slider.value()},
-            {"id": "2", "title": "Green", "intensity": self.green_slider.value()},
-            {"id": "3", "title": "Blue", "intensity": self.blue_slider.value()}
-        ]
-        current_dir = os.path.dirname(os.path.realpath(__file__))
-        json_file = os.path.join(current_dir, "_COLOR.json")
-        try:
-            with open(json_file, "w") as f:
-                json.dump(preset_data, f)
-        except IOError:
-            QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
-            # 프로그램 종료
-        sys.exit()
+        cap = cv2.VideoCapture("/dev/video0")
+        ret, _ = cap.read()
+        if cap.isOpened() and ret:
+            # _COLOR.json 파일에 슬라이더 값 저장
+            preset_data = [
+                    {"id": "1", "title": "Red", "intensity": self.red_slider.value()},
+                    {"id": "2", "title": "Green", "intensity": self.green_slider.value()},
+                    {"id": "3", "title": "Blue", "intensity": self.blue_slider.value()}
+            ]
+            current_dir = os.path.dirname(os.path.realpath(__file__))
+            json_file = os.path.join(current_dir, "_COLOR.json")
+            try:
+                with open(json_file, "w") as f:
+                    json.dump(preset_data, f)
+                    # 프로그램 종료
+                    sys.exit()
+            except IOError:
+                QMessageBox.critical(None, "Error", "Failed to save slider values to _COLOR.json")
+        else:
+            print(ret, cap.isOpened())
+            QMessageBox.critical(None, "Error", "Failed Capture board connection")
+        cap.release()
 
-    # 프리셋에 슬라이더 값 저장하는 함수
+
     def save_preset(self, num):
         print()
         red_value = self.red_slider.value()
@@ -333,5 +340,6 @@ if __name__ == "__main__":
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
+    #Dialog.showFullScreen()
     Dialog.show()
     sys.exit(app.exec_())

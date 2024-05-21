@@ -28,8 +28,6 @@ def main():
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    print(width, height)
-
     filter = make_filter(height, width, R, G, B)
 
     cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)
@@ -45,7 +43,7 @@ def main():
             print("Error: can't receive")
             break
 
-        # frame = cv2.flip(frame, 0)
+        frame = cv2.flip(frame, 0)
         filter = make_filter(height, width, R, G, B)
 
         frame = sample_image(frame, filter)
@@ -54,7 +52,7 @@ def main():
 
         time_diff = (cv2.getTickCount() - start_t) / cv2.getTickFrequency()
         fps = 1.0 / time_diff
-        print(f"FPS :{fps:.2f}")
+        #print(f"FPS :{fps:.2f}")
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

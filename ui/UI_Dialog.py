@@ -301,38 +301,77 @@ class Ui_Dialog(object):
         self.blue_text.setText(_translate("Dialog", "Blue(청색)"))
         self.green_text.setText(_translate("Dialog", "Green(녹색)"))
 
-    def set_new_image(self) :
-        red_value = self.red_slider.value()
-        blue_value = self.blue_slider.value()
-        green_value = self.green_slider.value()
+    # def set_new_image(self) :
+    #     red_value = self.red_slider.value()
+    #     blue_value = self.blue_slider.value()
+    #     green_value = self.green_slider.value()
 
-        if red_value == 0 and blue_value == 0 and green_value == 0:
-            pixmap = QtGui.QPixmap("./pic.jpg")
-            self.label_bottom.setPixmap(pixmap)
-            return
+    #     if red_value == 0 and blue_value == 0 and green_value == 0:
+    #         pixmap = QtGui.QPixmap("./pic.jpg")
+    #         self.label_bottom.setPixmap(pixmap)
+    #         return
 
-        image = cv2.imread('./pic.jpg')
+    #     image = cv2.imread('./pic.jpg')
 
-        filter = make_filter(image, red_value, green_value, blue_value)
-        blended = sample_image(image, filter)
+    #     filter = make_filter(image, red_value, green_value, blue_value)
+    #     blended = sample_image(image, filter)
 
-        cv2.imwrite("./pic_filtered.jpg", blended)
+    #     cv2.imwrite("./pic_filtered.jpg", blended)
        
-        pixmap = QtGui.QPixmap.fromImage(QtGui.QImage(blended.data, blended.shape[1], blended.shape[0], blended.shape[1] * 3, QtGui.QImage.Format_RGB888))
-        self.label_bottom.setPixmap(pixmap)
-        # self.label_bottom.deleteLater()
-        # self.label_bottom = None
+    #     # pixmap = QtGui.QPixmap.fromImage(QtGui.QImage(blended.data, blended.shape[1], blended.shape[0], blended.shape[1] * 3, QtGui.QImage.Format_RGB888))
+    #     # self.label_bottom.setPixmap(pixmap)
+    #     self.label_bottom.deleteLater()
+    #     self.label_bottom = None
     
-        # self.label_bottom = QtWidgets.QLabel(self.verticalLayoutWidget)
-        # self.label_bottom.setEnabled(True)
-        # self.label_top.setFixedSize(260, 260)  # 정사각형 크기 설정
-        # self.label_bottom.setStyleSheet("border-radius: 10px;")
-        # self.label_bottom.setTextFormat(QtCore.Qt.RichText)
-        # self.label_bottom.setPixmap(QtGui.QPixmap("./pic_filtered.jpg"))
-        # self.label_bottom.setObjectName("label_bottom")
-        # self.label_bottom.setScaledContents(True)
+    #     self.label_bottom = QtWidgets.QLabel(self.verticalLayoutWidget)
+    #     self.label_bottom.setEnabled(True)
+    #     self.label_top.setFixedSize(260, 260)  # 정사각형 크기 설정
+    #     self.label_bottom.setStyleSheet("border-radius: 10px;")
+    #     self.label_bottom.setTextFormat(QtCore.Qt.RichText)
+    #     self.label_bottom.setPixmap(QtGui.QPixmap("./pic_filtered.jpg"))
+    #     self.label_bottom.setObjectName("label_bottom")
+    #     self.label_bottom.setScaledContents(True)
         
-        # self.verticalLayout.addWidget(self.label_bottom)
+    #     self.verticalLayout.addWidget(self.label_bottom)
+
+    def update_red_value_ui(self):
+        value = self.red_slider.value()
+        self.red_value_level.setText(str(value))
+        self.set_new_image()
+
+    def update_blue_value_ui(self):
+        value = self.blue_slider.value()
+        self.blue_value_level.setText(str(value))
+        self.set_new_image()
+
+    def update_green_value_ui(self):
+        value = self.green_slider.value()
+        self.green_value_level.setText(str(value))
+        self.set_new_image()
+
+    def set_new_image(self):
+        # OpenCV를 사용하여 이미지를 읽어옴
+        img = cv2.imread("./pic.jpg")
+        img = cv2.resize(img, (260, 260))  # 이미지를 QLabel 크기에 맞춤
+
+        # 슬라이더 값을 가져옴
+        red_value = self.red_slider.value()
+        green_value = self.green_slider.value()
+        blue_value = self.blue_slider.value()
+
+        # 각 색상의 값을 조정
+        img[:, :, 2] = cv2.add(img[:, :, 2], red_value)
+        img[:, :, 1] = cv2.add(img[:, :, 1], green_value)
+        img[:, :, 0] = cv2.add(img[:, :, 0], blue_value)
+
+        # OpenCV 이미지를 QImage로 변환
+        height, width, channel = img.shape
+        bytes_per_line = 3 * width
+        q_img = QtGui.QImage(img.data, width, height, bytes_per_line, QtGui.QImage.Format_RGB888).rgbSwapped()
+
+        # QPixmap으로 변환하여 QLabel에 설정
+        pixmap = QtGui.QPixmap.fromImage(q_img)
+        self.label_bottom.setPixmap(pixmap)
 
     def update_red_value_ui(self, value):
         self.red_value_level.setText(str(value))

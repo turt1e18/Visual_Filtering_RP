@@ -34,7 +34,7 @@ def main():
     cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("test", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    #print("width :", width, "height :", height)
+    print("width :", width, "height :", height)
 
     while True:
         start_t = cv2.getTickCount()

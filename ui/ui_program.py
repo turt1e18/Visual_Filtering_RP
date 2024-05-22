@@ -53,6 +53,8 @@ class EventFilter(QObject):
                 elif obj == self.ui.green_slider:
                     self.ui.green_slider.setValue(self.ui.green_slider.value() + 1)
                 return True
+            elif event.key() == Qt.Key_Q:
+                sys.exit(2)
         return False
 
 class Ui_Dialog(object):

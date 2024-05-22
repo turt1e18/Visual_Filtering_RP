@@ -28,7 +28,7 @@ def get_device():
 
 
 if __name__ == "__main__":
-    device = '/dev/video1'
+    device = '/dev/video0'
     print(get_resolution_60fps(device))
 
 

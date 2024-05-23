@@ -8,7 +8,7 @@
 |Pi 4 Model B|8 GB|
 |Pi 4 Model B|4 GB|
 |Pi 5|8 GB|
-|Jetson orin nano||
+|Jetson orin nano|8 GB|
 
 ### OS
 
